@@ -1,5 +1,165 @@
+<?xml version="1.0"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
-    <xs:element name="UserConfig">
-        
-    </xs:element>
+
+
+<xs:element name="UserConfig">
+  <xs:complexType>
+    <xs:sequence>
+      <xs:element name="Group" type="GroupElement" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+
+<xs:complexType name="GroupElement">
+  <xs:sequence>
+    <xs:element name="PresetsArray" type="PresetsArrayElement" minOccurs="0" maxOccurs="1"/>
+    <xs:element name="VisibleVars" type="VisibleVarsElement" minOccurs="0" maxOccurs="1"/>
+  </xs:sequence>
+
+  <xs:attribute name="id" type="IdAttribute" use="required"/>
+  <xs:attribute name="displayName" type="xs:string" use="required"/>
+  <xs:attribute name="tags" type="IdListAttribute" use="optional"/>
+  <xs:attribute name="builder" type="xs:string" use="optional"/>
+</xs:complexType>
+
+
+<xs:complexType name="PresetsArrayElement">
+  <xs:sequence>
+    <xs:element name="Preset" type="PresetsElement" maxOccurs="unbounded"/>
+  </xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="PresetsElement">
+  <xs:sequence>
+    <xs:element name="Entry" type="EntryElement" maxOccurs="unbounded"/>
+  </xs:sequence>
+
+  <xs:attribute name="id" type="IdAttribute" use="required"/>
+  <xs:attribute name="displayName" type="xs:string" use="required"/>
+</xs:complexType>
+
+<xs:complexType name="EntryElement">
+  <xs:attribute name="varId" type="IdAttribute" use="required"/>
+  <xs:attribute name="value" type="NumberOrBoolAttribute" use="required"/>
+  <xs:attribute name="overrideGroup" type="xs:string" use="optional"/>
+</xs:complexType>
+
+
+<xs:complexType name="VisibleVarsElement">
+  <xs:sequence>
+    <xs:element name="Var" type="VarElement" maxOccurs="unbounded"/>
+  </xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="VarElement">
+  <xs:sequence>
+    <xs:element name="OptionsArray" type="OptionsArrayElement" minOccurs="0"/>
+  </xs:sequence>
+
+  <xs:attribute name="id" type="IdAttribute" use="required"/>
+  <xs:attribute name="displayName" type="xs:string" use="required"/>
+  <xs:attribute name="displayType" type="DisplayTypeAttribute" use="required"/>
+  <xs:attribute name="tags" type="IdListAttribute" use="optional"/>
+  <xs:attribute name="overrideGroup" type="xs:string" use="optional"/>
+  <xs:attribute name="visibilityCondition" type="xs:string" use="optional"/>
+  <xs:attribute name="builder" type="xs:string" use="optional"/>
+  <xs:attribute name="actions" type="IdListAttribute" use="optional"/>
+</xs:complexType>
+
+<xs:complexType name="OptionsArrayElement">
+  <xs:choice>
+    <xs:element name="ListingFunction" type="ListingFunctionElement"/>
+    <xs:sequence>
+      <xs:element name="Option" type="OptionElement" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:choice>
+</xs:complexType>
+
+<xs:complexType name="OptionElement">
+  <xs:sequence>
+    <xs:element name="Entry" type="EntryElement" maxOccurs="unbounded"/>
+  </xs:sequence>
+
+  <xs:attribute name="id" type="xs:int" use="required"/>
+  <xs:attribute name="displayName" type="xs:string" use="required"/>
+</xs:complexType>
+
+<xs:complexType name="ListingFunctionElement">
+  <xs:attribute name="name" type="xs:string"/>
+</xs:complexType>
+
+
+
+<xs:simpleType name="IdAttribute">
+  <xs:restriction base="xs:string">
+    <xs:pattern value="[\w_]+"/>
+  </xs:restriction>
+</xs:simpleType>
+
+<xs:simpleType name="IdListAttribute">
+  <xs:restriction base="xs:string">
+    <xs:pattern value="[\w_]+(;[\w_]+)*"/>
+  </xs:restriction>
+</xs:simpleType>
+
+<xs:simpleType name="NumberOrBoolAttribute">
+  <xs:union memberTypes="xs:int xs:float xs:boolean"/>
+</xs:simpleType>
+
+<xs:simpleType name="DisplayTypeAttribute">
+  <xs:union memberTypes="
+    ToggleDisplayType 
+    SliderDisplayType 
+    OptionsDisplayType 
+    GammaDisplayType 
+    SubtleSeparatorDisplayType
+    OptionsWithCondDisplayType
+    InputPcDisplayType
+  "/>
+</xs:simpleType>
+
+<xs:simpleType name="ToggleDisplayType">
+  <xs:restriction base="xs:string">
+    <xs:enumeration value="TOGGLE"/>
+  </xs:restriction>
+</xs:simpleType>
+
+<xs:simpleType name="OptionsDisplayType">
+  <xs:restriction base="xs:string">
+    <xs:enumeration value="OPTIONS"/>
+  </xs:restriction>
+</xs:simpleType>
+
+<xs:simpleType name="SliderDisplayType">
+  <xs:restriction base="xs:string">
+    <xs:pattern value="SLIDER;-?\d+(\.\d+)?;-?\d+(\.\d+)?;\d+"/>
+  </xs:restriction>
+</xs:simpleType>
+
+<xs:simpleType name="GammaDisplayType">
+  <xs:restriction base="xs:string">
+    <xs:pattern value="GAMMA;-?\d+(\.\d+)?;-?\d+(\.\d+)?;\d+"/>
+  </xs:restriction>
+</xs:simpleType>
+
+<xs:simpleType name="SubtleSeparatorDisplayType">
+  <xs:restriction base="xs:string">
+    <xs:enumeration value="SUBTLE_SEPARATOR"/>
+  </xs:restriction>
+</xs:simpleType>
+
+<xs:simpleType name="OptionsWithCondDisplayType">
+  <xs:restriction base="xs:string">
+    <xs:enumeration value="OPTIONSWITHCOND"/>
+  </xs:restriction>
+</xs:simpleType>
+
+<xs:simpleType name="InputPcDisplayType">
+  <xs:restriction base="xs:string">
+    <xs:enumeration value="INPUTPC"/>
+  </xs:restriction>
+</xs:simpleType>
+
+
 </xs:schema>
