@@ -5,7 +5,8 @@ Unofficial XML schema definition for Witcher 3's menu XMLs.
 
 ## How to use
 
-You can use any sort of XML validation software to validate your mod menu files, but if you're a Visual Studio Code user you can install the [Red Hat's XML extension](https://marketplace.visualstudio.com/items?itemName=redhat.vscode-xml). It will give you access to autocompletion and real-time diagnostics.
+You can use any sort of XML validation software to check your mod menu files by either downloading the [`tw3-menu.xsd`](./tw3-menu.xsd) file or copying its contents.  
+If you're a Visual Studio Code user however you can install [Red Hat's XML extension](https://marketplace.visualstudio.com/items?itemName=redhat.vscode-xml). It will give you access to autocompletion and real-time diagnostics.
 
 Then in your XML file add the following attributes to the `UserConfig` element:
 ```js
